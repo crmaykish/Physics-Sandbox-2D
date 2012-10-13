@@ -13,16 +13,37 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PhysicsGame
 {
-    class PhysObj
+    abstract class PhysObj
     {
         #region Physics Constants
-        float gravity = 0.3f;
-        float hFriction = -0.04f;
-        float elasticity = 0.6f;
+        float gravity = 0.6f;
         #endregion
 
-        Vector2 Position;
-        Vector2 Velocity;
-        Vector2 Mass;
+        Texture2D Texture;
+
+        public Vector2 Position;
+        public Vector2 Velocity;
+
+        public PhysObj(Texture2D texture, Vector2 position, Vector2 velocity)
+        {
+            Texture = texture;
+            Position = position;
+            Velocity = velocity;
+        }
+
+        public void Update()
+        {
+            Velocity.Y += gravity;
+            Position += Velocity;
+        }
+
+        public abstract void checkCollision(PhysObj otherObj);
+
+        public abstract void reactToCollision();
+
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(Texture, Position, Color.White);
+        }
     }
 }

@@ -18,15 +18,34 @@ namespace PhysicsGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        TextureFactory texFactory;
+        Texture2D square50;
+
+        List<PhysObj> physObjects;
+
+        #region Constants
+        const int WIDTH = 1280;
+        const int HEIGHT = 720;
+        #endregion
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = WIDTH;
+            graphics.PreferredBackBufferHeight = HEIGHT;
+
+            IsMouseVisible = true;
+
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            texFactory = new TextureFactory(GraphicsDevice);
+
+            physObjects = new List<PhysObj>();
 
             base.Initialize();
         }
@@ -36,7 +55,10 @@ namespace PhysicsGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // Load some Textures from the Factory
+            square50 = texFactory.GenerateSquareTexture(50);
+
+            physObjects.Add(new PhysRectangle(square50, new Vector2(100,100), Vector2.Zero));
         }
 
         protected override void UnloadContent()
@@ -50,7 +72,12 @@ namespace PhysicsGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            // update all objects
+            foreach (PhysObj o in physObjects)
+            {
+                o.Update();
+            }
+
 
             base.Update(gameTime);
         }
@@ -59,7 +86,14 @@ namespace PhysicsGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            foreach (PhysObj o in physObjects)
+            {
+                o.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -22,7 +22,7 @@ namespace PhysicsGame
             GDevice = device;
         }
 
-        public Texture2D GenerateCircleTexture(int radius, Color color)
+        public Texture2D GenerateCircleTexture(int radius)
         {
             int diameter = radius*2;
 
@@ -43,6 +43,24 @@ namespace PhysicsGame
             }
             circle.SetData(data);
             return circle;
+        }
+
+        public Texture2D GenerateRectangleTexture(int width, int height)
+        {
+            Texture2D rect = new Texture2D(GDevice, width, height);
+            Color[] data = new Color[width * height];
+
+            for (int i = 0; i < width * height; i++)
+            {
+                data[i] = Color.White;
+            }
+            rect.SetData(data);
+            return rect;
+        }
+
+        public Texture2D GenerateSquareTexture(int width)
+        {
+            return GenerateRectangleTexture(width, width);
         }
     }
 }
