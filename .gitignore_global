@@ -1,0 +1,6 @@
+# Compiled Source #
+*.exe
+
+# Folders #
+bin/
+obj/
