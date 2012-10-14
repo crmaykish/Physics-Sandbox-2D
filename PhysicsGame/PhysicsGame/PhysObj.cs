@@ -16,30 +16,62 @@ namespace PhysicsGame
     abstract class PhysObj
     {
         #region Physics Constants
-        float gravity = 0.6f;
+        float gravity = 0.5f;
+        protected float bounce = 0.6f;
         #endregion
 
-        Texture2D Texture;
+        protected Texture2D Texture;
 
         public Vector2 Position;
         public Vector2 Velocity;
+        public float Mass;
 
-        public PhysObj(Texture2D texture, Vector2 position, Vector2 velocity)
+        public PhysObj(Texture2D texture, Vector2 position, Vector2 velocity, float mass)
         {
             Texture = texture;
             Position = position;
             Velocity = velocity;
+            Mass = mass;
         }
 
         public void Update()
         {
             Velocity.Y += gravity;
             Position += Velocity;
+
+            if (Position.Y == 720 - 50)
+            {
+                Velocity.X *= bounce;
+            }
+
+            //check collision with ground
+            if (Position.Y > 720 - 50)
+            {
+                Position.Y = 720 - 50;
+                Velocity.Y *= -bounce;
+            }
+            else if (Position.Y < 0)
+            {
+                Position.Y = 0;
+                Velocity.Y *= -bounce;
+            }
+            // check collision with walls
+            if (Position.X < 0)
+            {
+                Position.X = 0;
+                Velocity.X *= -bounce;
+            }
+            else if (Position.X > 1280 - 50)
+            {
+                Position.X = 1280 - 50;
+                Velocity.X *= -bounce;
+            }
+
         }
 
-        public abstract void checkCollision(PhysObj otherObj);
+        public abstract bool checkCollision(PhysObj otherObj);
 
-        public abstract void reactToCollision();
+        public abstract void reactToCollision(PhysObj otherObj);
 
         public void Draw(SpriteBatch sb)
         {
