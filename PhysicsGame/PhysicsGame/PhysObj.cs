@@ -17,13 +17,14 @@ namespace PhysicsGame
     {
         #region Physics Constants
         float gravity = 0.5f;
-        protected float bounce = 0.6f;
+        protected float bounce = 0.8f;
         #endregion
 
         protected Texture2D Texture;
 
         public Vector2 Position;
         public Vector2 Velocity;
+        public Point Size;
         public float Mass;
 
         public PhysObj(Texture2D texture, Vector2 position, Vector2 velocity, float mass)
@@ -32,22 +33,19 @@ namespace PhysicsGame
             Position = position;
             Velocity = velocity;
             Mass = mass;
+
+            Size = new Point(Texture.Bounds.Width, Texture.Bounds.Height);
         }
 
-        public void Update()
+        public virtual void Update()
         {
             Velocity.Y += gravity;
             Position += Velocity;
 
-            if (Position.Y == 720 - 50)
-            {
-                Velocity.X *= bounce;
-            }
-
             //check collision with ground
-            if (Position.Y > 720 - 50)
+            if (Position.Y > 720 - 100 - Size.Y)
             {
-                Position.Y = 720 - 50;
+                Position.Y = 720 - 100 - Size.Y;
                 Velocity.Y *= -bounce;
             }
             else if (Position.Y < 0)
@@ -61,21 +59,26 @@ namespace PhysicsGame
                 Position.X = 0;
                 Velocity.X *= -bounce;
             }
-            else if (Position.X > 1280 - 50)
+            else if (Position.X > 1280 - Size.X)
             {
-                Position.X = 1280 - 50;
+                Position.X = 1280 - Size.X;
                 Velocity.X *= -bounce;
             }
 
+        }
+
+        public Vector2 getCenter()
+        {
+            return Position + new Vector2(Size.X / 2, Size.Y / 2);
         }
 
         public abstract bool checkCollision(PhysObj otherObj);
 
         public abstract void reactToCollision(PhysObj otherObj);
 
-        public void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(Texture, Position, Color.White);
+            sb.Draw(Texture, Position, Color.Maroon);
         }
     }
 }

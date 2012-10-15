@@ -19,8 +19,13 @@ namespace PhysicsGame
         SpriteBatch spriteBatch;
 
         TextureFactory texFactory;
+        Texture2D circle10;
         Texture2D circle50;
+        Texture2D circle100;
+        Texture2D circle250;
+        Texture2D rect100;
         Texture2D tracer;
+        Texture2D ground;
 
         List<PhysObj> physObjects;
 
@@ -29,6 +34,7 @@ namespace PhysicsGame
         #region Constants
         const int WIDTH = 1280;
         const int HEIGHT = 720;
+
         #endregion
 
         public Game()
@@ -61,16 +67,20 @@ namespace PhysicsGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load some Textures from the Factory
+            circle10 = texFactory.GenerateCircleTexture(5);
             circle50 = texFactory.GenerateCircleTexture(25);
+            //circle100 = texFactory.GenerateCircleTexture(50);
+            circle100 = Content.Load<Texture2D>("circle100");
+            circle250 = texFactory.GenerateCircleTexture(125);
+            rect100 = texFactory.GenerateRectangleTexture(60, 100);
+
             tracer = texFactory.GenerateSquareTexture(1);
+            ground = Content.Load<Texture2D>("ground");
 
-            physObjects.Add(new PhysCircle(circle50, new Vector2(100,100), new Vector2(5.0f, 3.0f), 1.0f));
-            physObjects.Add(new PhysCircle(circle50, new Vector2(600, 130), new Vector2(-1.0f, 1.0f), 1.0f));
-        }
-
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
+            //physObjects.Add(new PhysRectangle(rect100, new Vector2(100, 100), new Vector2(0.0f, 0.0f), 1.5f));
+            physObjects.Add(new PhysCircle(circle100, new Vector2(100, 100), new Vector2(30.0f, 3.0f), 1.0f));
+            physObjects.Add(new PhysCircle(circle100, new Vector2(600, 130), new Vector2(-8.0f, 1.0f), 1.0f));
+            physObjects.Add(new PhysCircle(circle100, new Vector2(1000, 80), new Vector2(-8.0f, 13.0f), 1.0f));
         }
 
         protected override void Update(GameTime gameTime)
@@ -85,7 +95,7 @@ namespace PhysicsGame
             foreach (PhysObj o in physObjects)
             {
                 o.Update();
-                //ballTracer.Add(o.Position + new Vector2(25, 25));
+                //ballTracer.Add(o.getCenter());
             }
 
             // collision detection
@@ -113,7 +123,7 @@ namespace PhysicsGame
             if (state.LeftButton == ButtonState.Pressed && lastState.LeftButton == ButtonState.Released)
             {
                 //add a ball
-                physObjects.Add(new PhysCircle(circle50, new Vector2(state.X - 25, state.Y - 25), Vector2.Zero, 1.0f));
+                physObjects.Add(new PhysCircle(circle100, new Vector2(state.X - 50, state.Y - 50), Vector2.Zero, 1.0f));
             }
 
             lastState = state;
@@ -121,14 +131,19 @@ namespace PhysicsGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(new Color(109, 177, 205));
 
             spriteBatch.Begin();
 
-            //foreach (Vector2 v in ballTracer)
-            //{
-            //    spriteBatch.Draw(tracer, v, Color.Black);
-            //}
+            for (int i = 0; i < WIDTH / 1024 + 1; i++)
+            {
+                spriteBatch.Draw(ground, new Vector2(i * 1024, HEIGHT - 100), Color.White);
+            }
+
+            foreach (Vector2 v in ballTracer)
+            {
+                spriteBatch.Draw(tracer, v, Color.Black);
+            }
 
             foreach (PhysObj o in physObjects)
             {

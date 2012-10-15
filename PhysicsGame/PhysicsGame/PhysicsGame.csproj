@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="PhysCircle.cs" />
     <Compile Include="PhysObj.cs" />
+    <Compile Include="PhysRectangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
