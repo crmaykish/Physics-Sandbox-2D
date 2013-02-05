@@ -1,0 +1,8 @@
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\bin\x86\Debug\PhysicsGame.exe
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\bin\x86\Debug\PhysicsGame.pdb
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\obj\x86\Debug\PhysicsGame.exe
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\obj\x86\Debug\PhysicsGame.pdb
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\bin\x86\Debug\Content\ground.xnb
+E:\Projects\Physics2D\PhysicsGame\PhysicsGame\bin\x86\Debug\Content\circle100.xnb
